@@ -22,6 +22,9 @@ dependencies {
 
     // JSON: Slower but reliable.
     compile 'com.google.code.gson:gson:2.5'
+
+    // JSON: Faster but less stable.
+    compile 'com.miguelgaeta.android-fast-json:fast-json:1.0.7'
 }
 
 apply from: '../build.release-aar.gradle'
