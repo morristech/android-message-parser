@@ -1,4 +1,8 @@
-## 1.1.1 - 2016-01-19
+## 1.1.3 - 2016-01-19
+
+- Add read object implementation for GSON.
+
+## 1.1.2 - 2016-01-19
 
 - Remove some if statements and use try catch instead.
 
