@@ -37,6 +37,10 @@ public interface MessageParser {
 
     double nextDouble() throws IOException;
 
+    double nextDouble(boolean defaultValue) throws IOException;
+
+    Double nextDoubleOrNull() throws IOException;
+
     long nextLong() throws IOException;
 
     long nextLong(long defaultValue) throws IOException;
@@ -57,6 +61,11 @@ public interface MessageParser {
 
     interface ListInitializer<T> {
 
+        /**
+         * Provides an initialized list implementation.
+         *
+         * @return A concrete mutable implementation of List.
+         */
         List<T> get();
     }
 
