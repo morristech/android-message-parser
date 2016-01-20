@@ -1,5 +1,9 @@
 ## 1.1.1 - 2016-01-19
 
+- Remove some if statements and use try catch instead.
+
+## 1.1.1 - 2016-01-19
+
 - Added readObject for experimental purposes.
 
 ## 1.1.0 - 2016-01-19
