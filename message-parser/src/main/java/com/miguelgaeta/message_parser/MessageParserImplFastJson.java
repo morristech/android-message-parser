@@ -75,13 +75,12 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public boolean nextBoolean() throws IOException {
-        final Boolean value = nextBooleanOrNull();
+        try {
+            return nextBooleanOrNull();
 
-        if (value == null) {
+        } catch (ClassCastException e) {
             throw new IOException("Null boolean value found.");
         }
-
-        return value;
     }
 
     @Override
@@ -98,13 +97,12 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public double nextDouble() throws IOException {
-        final Double value = nextDoubleOrNull();
+        try {
+            return nextDoubleOrNull();
 
-        if (value == null) {
+        } catch (ClassCastException e) {
             throw new IOException("Null double value found.");
         }
-
-        return value;
     }
 
     @Override
@@ -127,13 +125,13 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public long nextLong() throws IOException {
-        final Long value = nextLongOrNull();
+        try {
+            return nextLongOrNull();
 
-        if (value == null) {
+        } catch (ClassCastException e) {
+
             throw new IOException("Null long value found.");
         }
-
-        return value;
     }
 
     @Override
@@ -155,13 +153,13 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public int nextInt() throws IOException {
-        final Integer value = nextIntOrNull();
+        try {
+            return nextIntOrNull();
 
-        if (value == null) {
+        } catch (ClassCastException e) {
+
             throw new IOException("Null int value found.");
         }
-
-        return value;
     }
 
     @Override
