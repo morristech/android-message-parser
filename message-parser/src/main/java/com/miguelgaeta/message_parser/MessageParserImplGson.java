@@ -1,6 +1,7 @@
 package com.miguelgaeta.message_parser;
 
 
+import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class MessageParserImplGson implements MessageParser {
 
     private final JsonReader reader;
+
+    private final Gson gson = new Gson();
 
     public MessageParserImplGson(final Reader reader) {
         this.reader = new JsonReader(reader);
@@ -221,6 +224,6 @@ public class MessageParserImplGson implements MessageParser {
 
     @Override
     public <T> T readObject(Class<T> type) {
-        throw new AssertionError("Unsupported operation for GSON implementation.");
+        return gson.fromJson(reader, type);
     }
 }
