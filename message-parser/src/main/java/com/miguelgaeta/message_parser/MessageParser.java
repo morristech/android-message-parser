@@ -29,9 +29,9 @@ public interface MessageParser {
 
     String nextStringOrNull() throws IOException;
 
-    boolean nextBoolean(boolean defaultValue) throws IOException;
-
     boolean nextBoolean() throws IOException;
+
+    boolean nextBoolean(boolean defaultValue) throws IOException;
 
     Boolean nextBooleanOrNull() throws IOException;
 

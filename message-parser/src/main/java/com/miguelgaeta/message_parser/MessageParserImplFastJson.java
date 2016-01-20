@@ -75,16 +75,24 @@ public class MessageParserImplFastJson implements MessageParser {
     }
 
     @Override
+    public boolean nextBoolean() throws IOException {
+        final Boolean value = nextBooleanOrNull();
+
+        if (value == null) {
+
+            throw new IOException("Null boolean value found.");
+        }
+
+        return value;
+    }
+
+    @Override
     public boolean nextBoolean(boolean defaultValue) throws IOException {
-        final Boolean value = (Boolean) reader.readObject();
+        final Boolean value = nextBooleanOrNull();
 
         return value != null ? value : defaultValue;
     }
 
-    @Override
-    public boolean nextBoolean() throws IOException {
-        return (boolean) reader.readObject();
-    }
 
     @Override
     public Boolean nextBooleanOrNull() throws IOException {

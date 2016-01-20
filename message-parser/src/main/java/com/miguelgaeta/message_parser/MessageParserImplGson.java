@@ -85,15 +85,15 @@ public class MessageParserImplGson implements MessageParser {
     }
 
     @Override
+    public boolean nextBoolean() throws IOException {
+        return reader.nextBoolean();
+    }
+
+    @Override
     public boolean nextBoolean(boolean defaultValue) throws IOException {
         final Boolean value = nextBooleanOrNull();
 
         return value != null ? value : defaultValue;
-    }
-
-    @Override
-    public boolean nextBoolean() throws IOException {
-        return reader.nextBoolean();
     }
 
     @Override
