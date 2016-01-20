@@ -150,6 +150,17 @@ public class MessageParserImplGson implements MessageParser {
     }
 
     @Override
+    public Integer nextIntOrNull() throws IOException {
+        if (reader.peek() == JsonToken.NULL) {
+            nextNull();
+
+            return null;
+        }
+
+        return nextInt();
+    }
+
+    @Override
     public <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item) throws IOException {
         return nextList(initializer, item, false);
     }

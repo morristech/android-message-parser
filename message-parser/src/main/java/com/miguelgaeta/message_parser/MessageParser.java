@@ -47,6 +47,8 @@ public interface MessageParser {
 
     int nextInt(int defaultValue) throws IOException;
 
+    Integer nextIntOrNull() throws IOException;
+
     <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item) throws IOException;
 
     <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item, boolean filterNull) throws IOException;
