@@ -52,7 +52,6 @@ public class MessageParserImplFastJson implements MessageParser {
     @Override
     public void nextNull() throws IOException {
         if (reader.readObject() != null) {
-
             throw new IllegalStateException("Non-null value encountered.");
         }
     }
@@ -79,7 +78,6 @@ public class MessageParserImplFastJson implements MessageParser {
         final Boolean value = nextBooleanOrNull();
 
         if (value == null) {
-
             throw new IOException("Null boolean value found.");
         }
 
@@ -93,7 +91,6 @@ public class MessageParserImplFastJson implements MessageParser {
         return value != null ? value : defaultValue;
     }
 
-
     @Override
     public Boolean nextBooleanOrNull() throws IOException {
         return (Boolean) reader.readObject();
@@ -101,7 +98,31 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public double nextDouble() throws IOException {
-        return (double) reader.readObject();
+        final Double value = nextDoubleOrNull();
+
+        if (value == null) {
+            throw new IOException("Null double value found.");
+        }
+
+        return value;
+    }
+
+    @Override
+    public double nextDouble(double defaultValue) throws IOException {
+        final Double value = nextDoubleOrNull();
+
+        return value != null ? value : defaultValue;
+    }
+
+    @Override
+    public Double nextDoubleOrNull() throws IOException {
+        try {
+            return (double)reader.readObject();
+        } catch (JSONException e) {
+            return null;
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     @Override
@@ -109,7 +130,6 @@ public class MessageParserImplFastJson implements MessageParser {
         final Long value = nextLongOrNull();
 
         if (value == null) {
-
             throw new IOException("Null long value found.");
         }
 
@@ -126,11 +146,9 @@ public class MessageParserImplFastJson implements MessageParser {
     @Override
     public Long nextLongOrNull() throws IOException {
         try {
-
             return reader.readLong();
 
         } catch (JSONException e) {
-
             return null;
         }
     }
@@ -140,7 +158,6 @@ public class MessageParserImplFastJson implements MessageParser {
         final Integer value = nextIntOrNull();
 
         if (value == null) {
-
             throw new IOException("Null int value found.");
         }
 
@@ -157,11 +174,9 @@ public class MessageParserImplFastJson implements MessageParser {
     @Override
     public Integer nextIntOrNull() throws IOException {
         try {
-
             return reader.readInteger();
 
         } catch (JSONException e) {
-
             return null;
         }
     }
@@ -178,11 +193,9 @@ public class MessageParserImplFastJson implements MessageParser {
         reader.startArray();
 
         while (hasNext()) {
-
             final T i = item.get();
 
             if (!filterNull || i != null) {
-
                 list.add(i);
             }
         }
@@ -197,7 +210,6 @@ public class MessageParserImplFastJson implements MessageParser {
         if (beginObject()) {
 
             while (hasNext()) {
-
                 assigner.assign();
             }
 
@@ -206,7 +218,6 @@ public class MessageParserImplFastJson implements MessageParser {
             return true;
 
         } else {
-
             return false;
         }
     }

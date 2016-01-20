@@ -111,6 +111,24 @@ public class MessageParserImplGson implements MessageParser {
     }
 
     @Override
+    public double nextDouble(double defaultValue) throws IOException {
+        final Double value = nextDoubleOrNull();
+
+        return value != null ? value : defaultValue;
+    }
+
+    @Override
+    public Double nextDoubleOrNull() throws IOException {
+        if (reader.peek() == JsonToken.NULL) {
+            nextNull();
+
+            return null;
+        }
+
+        return nextDouble();
+    }
+
+    @Override
     public long nextLong() throws IOException {
         return reader.nextLong();
     }
@@ -172,11 +190,9 @@ public class MessageParserImplGson implements MessageParser {
         reader.beginArray();
 
         while (hasNext()) {
-
             final T i = item.get();
 
             if (!filterNull || i != null) {
-
                 list.add(i);
             }
         }
@@ -191,7 +207,6 @@ public class MessageParserImplGson implements MessageParser {
         if (beginObject()) {
 
             while (hasNext()) {
-
                 handler.assign();
             }
 
@@ -200,7 +215,6 @@ public class MessageParserImplGson implements MessageParser {
             return true;
 
         } else {
-
             return false;
         }
     }

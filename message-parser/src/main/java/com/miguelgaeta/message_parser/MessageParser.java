@@ -37,7 +37,7 @@ public interface MessageParser {
 
     double nextDouble() throws IOException;
 
-    double nextDouble(boolean defaultValue) throws IOException;
+    double nextDouble(double defaultValue) throws IOException;
 
     Double nextDoubleOrNull() throws IOException;
 
