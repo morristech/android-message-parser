@@ -16,7 +16,7 @@ public class MessageParserImplGson implements MessageParser {
 
     private final JsonReader reader;
 
-    public MessageParserImplGson(Reader reader) {
+    public MessageParserImplGson(final Reader reader) {
         this.reader = new JsonReader(reader);
     }
 
