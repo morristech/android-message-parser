@@ -20,6 +20,8 @@ android {
 
 dependencies {
 
+    // JSON: Slower but reliable.
+    compile 'com.google.code.gson:gson:2.5'
 }
 
 apply from: '../build.release-aar.gradle'
