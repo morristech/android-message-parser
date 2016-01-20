@@ -218,4 +218,9 @@ public class MessageParserImplGson implements MessageParser {
             return false;
         }
     }
+
+    @Override
+    public <T> T readObject(Class<T> type) {
+        throw new AssertionError("Unsupported operation for GSON implementation.");
+    }
 }

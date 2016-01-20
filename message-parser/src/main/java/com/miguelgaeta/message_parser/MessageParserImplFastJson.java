@@ -221,4 +221,9 @@ public class MessageParserImplFastJson implements MessageParser {
             return false;
         }
     }
+
+    @Override
+    public <T> T readObject(Class<T> type) {
+        return reader.readObject(type);
+    }
 }
