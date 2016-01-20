@@ -111,15 +111,15 @@ public class MessageParserImplGson implements MessageParser {
     }
 
     @Override
+    public long nextLong() throws IOException {
+        return reader.nextLong();
+    }
+
+    @Override
     public long nextLong(long defaultValue) throws IOException {
         final Long value = nextLongOrNull();
 
         return value != null ? value : defaultValue;
-    }
-
-    @Override
-    public long nextLong() throws IOException {
-        return reader.nextLong();
     }
 
     @Override

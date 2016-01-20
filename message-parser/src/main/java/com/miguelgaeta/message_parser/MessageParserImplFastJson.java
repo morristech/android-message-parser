@@ -97,13 +97,6 @@ public class MessageParserImplFastJson implements MessageParser {
     }
 
     @Override
-    public long nextLong(long defaultValue) throws IOException {
-        final Long value = nextLongOrNull();
-
-        return value != null ? value : defaultValue;
-    }
-
-    @Override
     public long nextLong() throws IOException {
         final Long value = nextLongOrNull();
 
@@ -113,6 +106,13 @@ public class MessageParserImplFastJson implements MessageParser {
         }
 
         return value;
+    }
+
+    @Override
+    public long nextLong(long defaultValue) throws IOException {
+        final Long value = nextLongOrNull();
+
+        return value != null ? value : defaultValue;
     }
 
     @Override
