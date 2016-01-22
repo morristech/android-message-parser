@@ -1,3 +1,7 @@
+## 1.2.0 - 2016-01-19
+
+- Added Jackson implementation.
+
 ## 1.1.3 - 2016-01-19
 
 - Add read object implementation for GSON.
