@@ -59,7 +59,7 @@ public interface MessageParser {
 
     boolean nextObject(ObjectFieldAssigner handler) throws IOException;
 
-    <T> T readObject(Class<T> type);
+    <T> T readObject(Class<T> type) throws IOException;
 
     interface ListInitializer<T> {
 
