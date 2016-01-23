@@ -1,3 +1,7 @@
+## 1.2.2 - 2016-01-19
+
+- Fixed bug in skipValue on Jackson implementation.
+
 ## 1.2.1 - 2016-01-19
 
 - Added a getReader call.
