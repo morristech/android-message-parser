@@ -64,6 +64,7 @@ public class MessageParserImplJackson implements MessageParser {
 
     @Override
     public void skipValue() throws IOException {
+        reader.skipChildren();
         reader.nextToken();
     }
 
