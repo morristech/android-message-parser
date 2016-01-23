@@ -61,6 +61,8 @@ public interface MessageParser {
 
     <T> T readObject(Class<T> type) throws IOException;
 
+    <T> T getReader(Class<T> type);
+
     interface ListInitializer<T> {
 
         /**

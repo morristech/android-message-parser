@@ -226,4 +226,11 @@ public class MessageParserImplGson implements MessageParser {
     public <T> T readObject(Class<T> type) {
         return gson.fromJson(reader, type);
     }
+
+    @Override
+    public <T> T getReader(Class<T> type) {
+
+        //noinspection unchecked
+        return (T) reader;
+    }
 }

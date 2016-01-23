@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.miguelgaeta.message_parser.MessageParser;
 import com.miguelgaeta.message_parser.MessageParserImplJackson;
 
@@ -64,6 +65,8 @@ public class AppActivity extends AppCompatActivity {
     }
 
     private void assign(final MessageParser reader, TestModel testModel) throws IOException {
+
+        Log.e("MessageParser", "Current token: " + reader.getReader(JsonParser.class).getCurrentToken());
 
         switch (reader.nextName()) {
 

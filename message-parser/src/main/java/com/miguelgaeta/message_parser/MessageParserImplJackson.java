@@ -252,4 +252,11 @@ public class MessageParserImplJackson implements MessageParser {
     public <T> T readObject(Class<T> type) throws IOException {
         return reader.readValueAs(type);
     }
+
+    @Override
+    public <T> T getReader(Class<T> type) {
+
+        //noinspection unchecked
+        return (T) reader;
+    }
 }
