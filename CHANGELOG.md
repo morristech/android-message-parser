@@ -1,3 +1,7 @@
+## 1.2.1 - 2016-01-19
+
+- Added a getReader call.
+
 ## 1.2.0 - 2016-01-19
 
 - Added Jackson implementation.
