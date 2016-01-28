@@ -1,3 +1,7 @@
+## 1.2.3 - 2016-01-19
+
+- Convert to java only library.
+
 ## 1.2.2 - 2016-01-19
 
 - Fixed bug in skipValue on Jackson implementation.
