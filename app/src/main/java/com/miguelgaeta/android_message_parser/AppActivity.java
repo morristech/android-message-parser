@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.miguelgaeta.message_parser.MessageParser;
+import com.miguelgaeta.message_parser.MessageParserImplGson;
 import com.miguelgaeta.message_parser.MessageParserImplJackson;
 
 import java.io.IOException;
@@ -38,9 +38,9 @@ public class AppActivity extends AppCompatActivity {
 
     private void test1(final TestModel testModel, final String json) throws IOException {
 
-        final MessageParser reader = new MessageParserImplJackson(new StringReader(json));
+        final MessageParser reader = new MessageParserImplGson(new StringReader(json));
 
-        reader.beginObject();
+        reader.beginObjectStructure();
 
         while (reader.hasNext()) {
 
@@ -65,8 +65,6 @@ public class AppActivity extends AppCompatActivity {
     }
 
     private void assign(final MessageParser reader, TestModel testModel) throws IOException {
-
-        Log.e("MessageParser", "Current token: " + reader.getReader(JsonParser.class).getCurrentToken());
 
         switch (reader.nextName()) {
 

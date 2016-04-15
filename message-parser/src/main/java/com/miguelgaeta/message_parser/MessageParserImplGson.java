@@ -9,87 +9,42 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-/**
- * Created by Miguel Gaeta on 1/19/16.
- */
 @SuppressWarnings("UnusedDeclaration")
-public class MessageParserImplGson implements MessageParser {
-
-    private final JsonReader reader;
+public class MessageParserImplGson extends JsonReader implements MessageParser {
 
     private final Gson gson = new Gson();
 
     public MessageParserImplGson(final Reader reader) {
-        this.reader = new JsonReader(reader);
+        super(reader);
     }
 
     @Override
-    public boolean beginObject() throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
+    public boolean beginObjectStructure() throws IOException {
+        if (peek() == JsonToken.NULL) {
             nextNull();
 
             return false;
         }
 
-        reader.beginObject();
+        beginObject();
 
         return true;
     }
 
     @Override
-    public void endObject() throws IOException {
-        reader.endObject();
-    }
-
-    @Override
-    public void close() throws IOException {
-        reader.close();
-    }
-
-    @Override
-    public boolean hasNext() throws IOException {
-        return reader.hasNext();
-    }
-
-    @Override
-    public String nextName() throws IOException {
-        return reader.nextName();
-    }
-
-    @Override
-    public void skipValue() throws IOException {
-        reader.skipValue();
-    }
-
-    @Override
-    public void nextNull() throws IOException {
-        reader.nextNull();
-    }
-
-    @Override
-    public String nextString() throws IOException {
-        return reader.nextString();
-    }
-
-    @Override
     public String nextString(String defaultValue) throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
-            reader.nextNull();
+        if (peek() == JsonToken.NULL) {
+            nextNull();
 
             return defaultValue;
         }
 
-        return reader.nextString();
+        return nextString();
     }
 
     @Override
     public String nextStringOrNull() throws IOException {
         return nextString(null);
-    }
-
-    @Override
-    public boolean nextBoolean() throws IOException {
-        return reader.nextBoolean();
     }
 
     @Override
@@ -101,16 +56,11 @@ public class MessageParserImplGson implements MessageParser {
 
     @Override
     public Boolean nextBooleanOrNull() throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
+        if (peek() == JsonToken.NULL) {
             nextNull();
         }
 
         return nextBoolean();
-    }
-
-    @Override
-    public double nextDouble() throws IOException {
-        return reader.nextDouble();
     }
 
     @Override
@@ -122,18 +72,13 @@ public class MessageParserImplGson implements MessageParser {
 
     @Override
     public Double nextDoubleOrNull() throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
+        if (peek() == JsonToken.NULL) {
             nextNull();
 
             return null;
         }
 
         return nextDouble();
-    }
-
-    @Override
-    public long nextLong() throws IOException {
-        return reader.nextLong();
     }
 
     @Override
@@ -145,7 +90,7 @@ public class MessageParserImplGson implements MessageParser {
 
     @Override
     public Long nextLongOrNull() throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
+        if (peek() == JsonToken.NULL) {
             nextNull();
 
             return null;
@@ -155,13 +100,8 @@ public class MessageParserImplGson implements MessageParser {
     }
 
     @Override
-    public int nextInt() throws IOException {
-        return reader.nextInt();
-    }
-
-    @Override
     public int nextInt(int defaultValue) throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
+        if (peek() == JsonToken.NULL) {
             nextNull();
 
             return defaultValue;
@@ -172,7 +112,7 @@ public class MessageParserImplGson implements MessageParser {
 
     @Override
     public Integer nextIntOrNull() throws IOException {
-        if (reader.peek() == JsonToken.NULL) {
+        if (peek() == JsonToken.NULL) {
             nextNull();
 
             return null;
@@ -190,7 +130,7 @@ public class MessageParserImplGson implements MessageParser {
     public <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item, boolean filterNull) throws IOException {
         final List<T> list = initializer.get();
 
-        reader.beginArray();
+        beginArray();
 
         while (hasNext()) {
             final T i = item.get();
@@ -200,14 +140,14 @@ public class MessageParserImplGson implements MessageParser {
             }
         }
 
-        reader.endArray();
+        endArray();
 
         return list;
     }
 
     @Override
     public boolean nextObject(ObjectFieldAssigner handler) throws IOException {
-        if (beginObject()) {
+        if (beginObjectStructure()) {
 
             while (hasNext()) {
                 handler.assign();
@@ -224,13 +164,13 @@ public class MessageParserImplGson implements MessageParser {
 
     @Override
     public <T> T readObject(Class<T> type) {
-        return gson.fromJson(reader, type);
+        return gson.fromJson(this, type);
     }
 
     @Override
     public <T> T getReader(Class<T> type) {
 
         //noinspection unchecked
-        return (T) reader;
+        return (T) this;
     }
 }

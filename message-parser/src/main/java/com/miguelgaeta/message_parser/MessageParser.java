@@ -9,7 +9,7 @@ import java.util.List;
 @SuppressWarnings("UnusedDeclaration")
 public interface MessageParser {
 
-    boolean beginObject() throws IOException;
+    boolean beginObjectStructure() throws IOException;
 
     void endObject() throws IOException;
 

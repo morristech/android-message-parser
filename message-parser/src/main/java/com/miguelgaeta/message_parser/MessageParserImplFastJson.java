@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-/**
- * Created by Miguel Gaeta on 1/19/16.
- */
 @SuppressWarnings("UnusedDeclaration")
 public class MessageParserImplFastJson implements MessageParser {
 
@@ -20,7 +17,7 @@ public class MessageParserImplFastJson implements MessageParser {
     }
 
     @Override
-    public boolean beginObject() throws IOException {
+    public boolean beginObjectStructure() throws IOException {
         return reader.startObject();
     }
 
@@ -205,7 +202,7 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public boolean nextObject(ObjectFieldAssigner assigner) throws IOException {
-        if (beginObject()) {
+        if (beginObjectStructure()) {
 
             while (hasNext()) {
                 assigner.assign();

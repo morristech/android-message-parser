@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-/**
- * Created by Miguel Gaeta on 1/21/16.
- */
+@SuppressWarnings("UnusedDeclaration")
 public class MessageParserImplJackson implements MessageParser {
 
     private final JsonParser reader;
@@ -23,7 +21,7 @@ public class MessageParserImplJackson implements MessageParser {
     }
 
     @Override
-    public boolean beginObject() throws IOException {
+    public boolean beginObjectStructure() throws IOException {
 
         if (reader.isExpectedStartObjectToken()) {
             reader.nextToken();
@@ -235,7 +233,7 @@ public class MessageParserImplJackson implements MessageParser {
 
     @Override
     public boolean nextObject(ObjectFieldAssigner handler) throws IOException {
-        if (beginObject()) {
+        if (beginObjectStructure()) {
 
             while (hasNext()) {
                 handler.assign();
