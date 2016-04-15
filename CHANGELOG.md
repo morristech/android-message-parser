@@ -1,3 +1,8 @@
+## 1.2.4 - 2016-04-15
+
+- Performance improvements on the GSON parser implementation.
+- Changed interface #beginObject changed to #beginObjectStructure.
+
 ## 1.2.3 - 2016-01-19
 
 - Convert to java only library.

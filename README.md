@@ -8,7 +8,7 @@ A wrapper interface to various messaging formats for fast message parsing.
 
 ```groovy
 
-compile 'com.miguelgaeta.android-message-parser:message-parser:1.2.3'
+compile 'com.miguelgaeta.android-message-parser:message-parser:1.2.4'
 
 ```
 
