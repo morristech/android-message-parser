@@ -8,13 +8,7 @@ targetCompatibility = 1.7
 dependencies {
 
     // JSON: Slower but reliable.
-    compile 'com.fasterxml.jackson.core:jackson-core:2.7.0'
-
-    // JSON: Slower but reliable.
     compile 'com.google.code.gson:gson:2.6.2'
-
-    // JSON: Faster but less stable.
-    compile 'com.miguelgaeta.android-fast-json:fast-json:1.0.7'
 }
 
 apply from: '../build.release-jar.gradle'

@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.miguelgaeta.message_parser.MessageParser;
-import com.miguelgaeta.message_parser.MessageParserImplFastJson;
 import com.miguelgaeta.message_parser.MessageParserImplGson;
-import com.miguelgaeta.message_parser.MessageParserImplJackson;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -31,8 +29,6 @@ public class AppActivity extends AppCompatActivity {
         try {
 
             test1(new TestModel(), json);
-            test2(new TestModel(), json);
-            test3(new TestModel(), json);
 
         } catch (IOException e) {
 
@@ -52,26 +48,6 @@ public class AppActivity extends AppCompatActivity {
         }
 
         reader.endObject();
-        reader.close();
-
-        Log.e("MessageParser", "Parsed: " + testModel);
-    }
-
-    private void test2(final TestModel testModel, final String json) throws IOException {
-
-        final MessageParser reader = new MessageParserImplJackson(new StringReader(json));
-
-        reader.nextObject(() -> AppActivity.this.assign(reader, testModel));
-        reader.close();
-
-        Log.e("MessageParser", "Parsed: " + testModel);
-    }
-
-    private void test3(final TestModel testModel, final String json) throws IOException {
-
-        final MessageParser reader = new MessageParserImplFastJson(new StringReader(json));
-
-        reader.nextObject(() -> AppActivity.this.assign(reader, testModel));
         reader.close();
 
         Log.e("MessageParser", "Parsed: " + testModel);
