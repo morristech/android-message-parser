@@ -258,4 +258,14 @@ public class MessageParserImplJackson implements MessageParser {
         //noinspection unchecked
         return (T) reader;
     }
+
+    @Override
+    public void beginArray() throws IOException {
+        reader.nextToken();
+    }
+
+    @Override
+    public void endArray() throws IOException {
+        reader.nextToken();
+    }
 }

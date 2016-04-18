@@ -228,4 +228,14 @@ public class MessageParserImplFastJson implements MessageParser {
         //noinspection unchecked
         return (T) reader;
     }
+
+    @Override
+    public void beginArray() throws IOException {
+        reader.startArray();
+    }
+
+    @Override
+    public void endArray() throws IOException {
+        reader.endArray();
+    }
 }
