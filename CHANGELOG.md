@@ -1,3 +1,7 @@
+## 1.2.5 - 2016-04-18
+
+- Add #beginArray and #endArray to interface.
+
 ## 1.2.4 - 2016-04-15
 
 - Performance improvements on the GSON parser implementation.
