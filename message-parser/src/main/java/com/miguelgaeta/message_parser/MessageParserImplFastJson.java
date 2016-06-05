@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONReader;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
@@ -177,12 +178,45 @@ public class MessageParserImplFastJson implements MessageParser {
     }
 
     @Override
-    public <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item) throws IOException {
-        return nextList(initializer, item, false);
+    public <T> List<T> nextList(ListItem<T> item) throws IOException {
+        final List<T> list = new ArrayList<>();
+
+        reader.startArray();
+
+        while (hasNext()) {
+            final T i = item.get();
+
+            if (i != null) {
+                list.add(i);
+            }
+        }
+
+        reader.endArray();
+
+        return list;
     }
 
     @Override
-    public <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item, boolean filterNull) throws IOException {
+    public <T> List<T> nextList(ListItem<T> item, boolean filterNull) throws IOException {
+        final List<T> list = new ArrayList<>();
+
+        reader.startArray();
+
+        while (hasNext()) {
+            final T i = item.get();
+
+            if (!filterNull || i != null) {
+                list.add(i);
+            }
+        }
+
+        reader.endArray();
+
+        return list;
+    }
+
+    @Override
+    public <T> List<T> nextList(ListItem<T> item, boolean filterNull, ListInitializer<T> initializer) throws IOException {
         final List<T> list = initializer.get();
 
         reader.startArray();

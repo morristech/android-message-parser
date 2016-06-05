@@ -3,9 +3,6 @@ package com.miguelgaeta.message_parser;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by Miguel Gaeta on 1/19/16.
- */
 @SuppressWarnings("UnusedDeclaration")
 public interface MessageParser {
 
@@ -53,9 +50,11 @@ public interface MessageParser {
 
     Integer nextIntOrNull() throws IOException;
 
-    <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item) throws IOException;
+    <T> List<T> nextList(final ListItem<T> item) throws IOException;
 
-    <T> List<T> nextList(ListInitializer<T> initializer, ListItem<T> item, boolean filterNull) throws IOException;
+    <T> List<T> nextList(final ListItem<T> item, final boolean filterNull) throws IOException;
+
+    <T> List<T> nextList(final ListItem<T> item, final boolean filterNull, final ListInitializer<T> initializer) throws IOException;
 
     boolean nextObject(ObjectFieldAssigner handler) throws IOException;
 

@@ -78,7 +78,7 @@ public class AppActivity extends AppCompatActivity {
                 testModel.test_bool = reader.nextBoolean();
                 break;
             case "test_arr":
-                testModel.test_arr = reader.nextList(ArrayList::new, reader::nextInt);
+                testModel.test_arr = reader.nextList(reader::nextInt);
                 break;
         }
     }
