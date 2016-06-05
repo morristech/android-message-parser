@@ -9,66 +9,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
-public class MessageParserImplFastJson implements MessageParser {
+public class MessageParserImplFastJson extends JSONReader implements MessageParser {
 
-    private final JSONReader reader;
-
-    public MessageParserImplFastJson(final Reader reader) {
-        this.reader = new JSONReader(reader);
+    public MessageParserImplFastJson(Reader reader) {
+        super(reader);
     }
 
     @Override
     public boolean beginObjectStructure() throws IOException {
-        return reader.startObject();
-    }
-
-    @Override
-    public void endObject() throws IOException {
-        reader.endObject();
-    }
-
-    @Override
-    public void close() throws IOException {
-        reader.close();
-    }
-
-    @Override
-    public boolean hasNext() throws IOException {
-        return reader.hasNext();
+        return startObject();
     }
 
     @Override
     public String nextName() throws IOException {
-        return (String)reader.readObject();
+        return (String)readObject();
     }
 
     @Override
     public void skipValue() throws IOException {
-        reader.readObject();
+        readObject();
     }
 
     @Override
     public void nextNull() throws IOException {
-        if (reader.readObject() != null) {
+        if (readObject() != null) {
             throw new IllegalStateException("Non-null value encountered.");
         }
     }
 
     @Override
     public String nextString() throws IOException {
-        return reader.readString();
+        return readString();
     }
 
     @Override
     public String nextString(String defaultValue) throws IOException {
-        final String value = reader.readString();
+        final String value = readString();
 
         return value != null ? value : defaultValue;
     }
 
     @Override
     public String nextStringOrNull() throws IOException {
-        return reader.readString();
+        return readString();
     }
 
     @Override
@@ -90,7 +73,7 @@ public class MessageParserImplFastJson implements MessageParser {
 
     @Override
     public Boolean nextBooleanOrNull() throws IOException {
-        return (Boolean) reader.readObject();
+        return (Boolean) readObject();
     }
 
     @Override
@@ -113,7 +96,7 @@ public class MessageParserImplFastJson implements MessageParser {
     @Override
     public Double nextDoubleOrNull() throws IOException {
         try {
-            return (double)reader.readObject();
+            return (double)readObject();
         } catch (JSONException e) {
             return null;
         } catch (ClassCastException e) {
@@ -142,7 +125,7 @@ public class MessageParserImplFastJson implements MessageParser {
     @Override
     public Long nextLongOrNull() throws IOException {
         try {
-            return reader.readLong();
+            return readLong();
 
         } catch (JSONException e) {
             return null;
@@ -170,7 +153,7 @@ public class MessageParserImplFastJson implements MessageParser {
     @Override
     public Integer nextIntOrNull() throws IOException {
         try {
-            return reader.readInteger();
+            return readInteger();
 
         } catch (JSONException e) {
             return null;
@@ -181,7 +164,7 @@ public class MessageParserImplFastJson implements MessageParser {
     public <T> List<T> nextList(ListItem<T> item) throws IOException {
         final List<T> list = new ArrayList<>();
 
-        reader.startArray();
+        startArray();
 
         while (hasNext()) {
             final T i = item.get();
@@ -191,7 +174,7 @@ public class MessageParserImplFastJson implements MessageParser {
             }
         }
 
-        reader.endArray();
+        endArray();
 
         return list;
     }
@@ -200,7 +183,7 @@ public class MessageParserImplFastJson implements MessageParser {
     public <T> List<T> nextList(ListItem<T> item, boolean filterNull) throws IOException {
         final List<T> list = new ArrayList<>();
 
-        reader.startArray();
+        startArray();
 
         while (hasNext()) {
             final T i = item.get();
@@ -210,7 +193,7 @@ public class MessageParserImplFastJson implements MessageParser {
             }
         }
 
-        reader.endArray();
+        endArray();
 
         return list;
     }
@@ -219,7 +202,7 @@ public class MessageParserImplFastJson implements MessageParser {
     public <T> List<T> nextList(ListItem<T> item, boolean filterNull, ListInitializer<T> initializer) throws IOException {
         final List<T> list = initializer.get();
 
-        reader.startArray();
+        startArray();
 
         while (hasNext()) {
             final T i = item.get();
@@ -229,7 +212,7 @@ public class MessageParserImplFastJson implements MessageParser {
             }
         }
 
-        reader.endArray();
+        endArray();
 
         return list;
     }
@@ -252,24 +235,14 @@ public class MessageParserImplFastJson implements MessageParser {
     }
 
     @Override
-    public <T> T readObject(Class<T> type) {
-        return reader.readObject(type);
-    }
-
-    @Override
     public <T> T getReader(Class<T> type) {
 
         //noinspection unchecked
-        return (T) reader;
+        return (T) this;
     }
 
     @Override
     public void beginArray() throws IOException {
-        reader.startArray();
-    }
-
-    @Override
-    public void endArray() throws IOException {
-        reader.endArray();
+        startArray();
     }
 }

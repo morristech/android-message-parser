@@ -1,8 +1,11 @@
 package com.miguelgaeta.message_parser;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.io.IOContext;
+import com.fasterxml.jackson.core.json.ReaderBasedJsonParser;
+import com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,199 +13,200 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
-public class MessageParserImplJackson implements MessageParser {
-
-    private final JsonParser reader;
+public class MessageParserImplJackson extends ReaderBasedJsonParser implements MessageParser {
 
     public MessageParserImplJackson(final Reader reader) throws IOException {
-        final JsonFactory factory = new JsonFactory();
+        this(new Factory().configure(reader));
+    }
 
-        this.reader = factory.createParser(reader);
-        this.reader.nextToken();
+    private MessageParserImplJackson(final Factory factory) throws IOException {
+        super(
+            factory.context,
+            factory.parserFeatures,
+            factory.decoratedReader,
+            factory.objectCodec,
+            factory.charsToNameCanonicalizer);
+
+        nextToken();
     }
 
     @Override
     public boolean beginObjectStructure() throws IOException {
 
-        if (reader.isExpectedStartObjectToken()) {
-            reader.nextToken();
+        if (isExpectedStartObjectToken()) {
+            nextToken();
 
             return true;
         }
 
-        reader.nextToken();
+        nextToken();
 
         return false;
     }
 
     @Override
     public void endObject() throws IOException {
-        reader.nextToken();
-    }
-
-    @Override
-    public void close() throws IOException {
-        reader.close();
+        nextToken();
     }
 
     @Override
     public boolean hasNext() throws IOException {
         return
-            reader.getCurrentToken() != JsonToken.END_ARRAY &&
-            reader.getCurrentToken() != JsonToken.END_OBJECT;
+            getCurrentToken() != JsonToken.END_ARRAY &&
+            getCurrentToken() != JsonToken.END_OBJECT;
     }
 
     @Override
     public String nextName() throws IOException {
-        final String name = reader.getCurrentName();
+        final String name = getCurrentName();
 
-        reader.nextToken();
+        nextToken();
 
         return name;
     }
 
     @Override
     public void skipValue() throws IOException {
-        reader.skipChildren();
-        reader.nextToken();
+        skipChildren();
+        nextToken();
     }
 
     @Override
     public void nextNull() throws IOException {
-        reader.nextToken();
+        nextToken();
     }
 
     @Override
     public String nextString() throws IOException {
-        final String value = reader.getValueAsString();
+        final String value = getValueAsString();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public String nextString(String defaultValue) throws IOException {
-        final String value = reader.getValueAsString(defaultValue);
+        final String value = getValueAsString(defaultValue);
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public String nextStringOrNull() throws IOException {
-        final String value = reader.getValueAsString(null);
+        final String value = getValueAsString(null);
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public boolean nextBoolean() throws IOException {
-        final boolean value = reader.getValueAsBoolean();
+        final boolean value = getValueAsBoolean();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public boolean nextBoolean(boolean defaultValue) throws IOException {
-        final boolean value = reader.getValueAsBoolean(defaultValue);
+        final boolean value = getValueAsBoolean(defaultValue);
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public Boolean nextBooleanOrNull() throws IOException {
-        final Boolean value = reader.getCurrentToken() == JsonToken.VALUE_NULL ? null : reader.getValueAsBoolean();
+        final Boolean value = getCurrentToken() == JsonToken.VALUE_NULL ? null : getValueAsBoolean();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public double nextDouble() throws IOException {
-        final double value = reader.getValueAsDouble();
+        final double value = getValueAsDouble();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public double nextDouble(double defaultValue) throws IOException {
-        final double value = reader.getValueAsDouble(defaultValue);
+        final double value = getValueAsDouble(defaultValue);
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public Double nextDoubleOrNull() throws IOException {
-        final Double value = reader.getCurrentToken() == JsonToken.VALUE_NULL ? null : reader.getValueAsDouble();
+        final Double value = getCurrentToken() == JsonToken.VALUE_NULL ? null : getValueAsDouble();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public long nextLong() throws IOException {
-        final long value = reader.getValueAsLong();
+        final long value = getValueAsLong();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public long nextLong(long defaultValue) throws IOException {
-        final long value = reader.getValueAsLong(defaultValue);
+        final long value = getValueAsLong(defaultValue);
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public Long nextLongOrNull() throws IOException {
-        final Long value = reader.getCurrentToken() == JsonToken.VALUE_NULL ? null : reader.getValueAsLong();
+        final Long value = getCurrentToken() == JsonToken.VALUE_NULL ? null : getValueAsLong();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public int nextInt() throws IOException {
-        final int value = reader.getValueAsInt();
+        final int value = getValueAsInt();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public int nextInt(int defaultValue) throws IOException {
-        final int value = reader.getValueAsInt(defaultValue);
+        final int value = getValueAsInt(defaultValue);
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
 
     @Override
     public Integer nextIntOrNull() throws IOException {
-        final Integer value = reader.getCurrentToken() == JsonToken.VALUE_NULL ? null : reader.getValueAsInt();
+        final Integer value = getCurrentToken() == JsonToken.VALUE_NULL ? null : getValueAsInt();
 
-        reader.nextToken();
+        nextToken();
 
         return value;
     }
@@ -211,7 +215,7 @@ public class MessageParserImplJackson implements MessageParser {
     public <T> List<T> nextList(ListItem<T> item) throws IOException {
         final List<T> list = new ArrayList<>();
 
-        reader.nextToken();
+        nextToken();
 
 
         while (hasNext()) {
@@ -222,7 +226,7 @@ public class MessageParserImplJackson implements MessageParser {
             }
         }
 
-        reader.nextToken();
+        nextToken();
 
         return list;
     }
@@ -231,7 +235,7 @@ public class MessageParserImplJackson implements MessageParser {
     public <T> List<T> nextList(ListItem<T> item, boolean filterNull) throws IOException {
         final List<T> list = new ArrayList<>();
 
-        reader.nextToken();
+        nextToken();
 
 
         while (hasNext()) {
@@ -242,7 +246,7 @@ public class MessageParserImplJackson implements MessageParser {
             }
         }
 
-        reader.nextToken();
+        nextToken();
 
         return list;
     }
@@ -251,7 +255,7 @@ public class MessageParserImplJackson implements MessageParser {
     public <T> List<T> nextList(ListItem<T> item, boolean filterNull, ListInitializer<T> initializer) throws IOException {
         final List<T> list = initializer.get();
 
-        reader.nextToken();
+        nextToken();
 
 
         while (hasNext()) {
@@ -262,7 +266,7 @@ public class MessageParserImplJackson implements MessageParser {
             }
         }
 
-        reader.nextToken();
+        nextToken();
 
         return list;
     }
@@ -285,23 +289,43 @@ public class MessageParserImplJackson implements MessageParser {
 
     @Override
     public <T> T readObject(Class<T> type) throws IOException {
-        return reader.readValueAs(type);
+        return readValueAs(type);
     }
 
     @Override
     public <T> T getReader(Class<T> type) {
 
         //noinspection unchecked
-        return (T) reader;
+        return (T) this;
     }
 
     @Override
     public void beginArray() throws IOException {
-        reader.nextToken();
+        nextToken();
     }
 
     @Override
     public void endArray() throws IOException {
-        reader.nextToken();
+        nextToken();
+    }
+
+    @SuppressWarnings("SpellCheckingInspection")
+    static class Factory extends JsonFactory {
+
+        IOContext context;
+        int parserFeatures;
+        Reader decoratedReader;
+        ObjectCodec objectCodec;
+        CharsToNameCanonicalizer charsToNameCanonicalizer;
+
+        public Factory configure(final Reader reader) throws IOException {
+            context = _createContext(reader, false);
+            parserFeatures = _parserFeatures;
+            decoratedReader = _decorate(reader, context);
+            objectCodec = _objectCodec;
+            charsToNameCanonicalizer = _rootCharSymbols.makeChild(_factoryFeatures);
+
+            return this;
+        }
     }
 }
