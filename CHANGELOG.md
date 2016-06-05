@@ -1,3 +1,8 @@
+## 1.3.0 - 2016-06-05
+
+- Update #nextList overloads to more sensible defaults.
+- Update `Jackson` and `FastJson` implementations to be instances of their base parsers.
+
 ## 1.2.5 - 2016-04-18
 
 - Add #beginArray and #endArray to interface.
