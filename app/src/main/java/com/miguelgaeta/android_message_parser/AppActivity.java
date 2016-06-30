@@ -12,6 +12,7 @@ import com.miguelgaeta.message_parser.MessageParserImplJackson;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
 
 public class AppActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class AppActivity extends AppCompatActivity {
 
         setContentView(R.layout.app_activity);
 
-        final String json = "{\"test\":\"Bob\", \"test_again\":13, \"test_bool\":true, \"test_arr\":[1, 2, 3, 4]}";
+        final String json = "{\"test\":\"Bob\", \"test_again\":13, \"test_bool\":true, \"test_arr\":[1, 2], \"test_arr_2\":[1, 2, 3, 4]}";
 
         Log.e("MessageParser", json);
 
@@ -90,6 +91,9 @@ public class AppActivity extends AppCompatActivity {
             case "test_arr":
                 testModel.test_arr = reader.nextList(reader::nextInt);
                 break;
+            case "test_arr_2":
+                testModel.test_map = reader.nextListAsMap(reader::nextInt, integer -> "key-" + integer);
+                break;
         }
     }
 
@@ -101,12 +105,14 @@ public class AppActivity extends AppCompatActivity {
 
         private List<Integer> test_arr;
 
+        private Map<String, Integer> test_map;
+
         private boolean test_bool;
 
         @Override
         public String toString() {
 
-            return "test: " +  test + ", test_again: " + test_again + ", test_bool: " + test_bool + ", test_arr: " + test_arr;
+            return "test: " +  test + ", test_again: " + test_again + ", test_bool: " + test_bool + ", test_arr: " + test_arr + ", test_map: " + test_map;
         }
     }
 }

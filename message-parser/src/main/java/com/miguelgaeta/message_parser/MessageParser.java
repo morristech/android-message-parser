@@ -2,6 +2,7 @@ package com.miguelgaeta.message_parser;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("UnusedDeclaration")
 public interface MessageParser {
@@ -56,6 +57,12 @@ public interface MessageParser {
 
     <T> List<T> nextList(final ListItem<T> item, final boolean filterNull, final ListInitializer<T> initializer) throws IOException;
 
+    <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key) throws IOException;
+
+    <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key, boolean filterNull) throws IOException;
+
+    <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key, boolean filterNull, MapInitializer<K, V> initializer) throws IOException;
+
     boolean nextObject(ObjectFieldAssigner handler) throws IOException;
 
     <T> T readObject(Class<T> type) throws IOException;
@@ -73,6 +80,21 @@ public interface MessageParser {
          * @return A concrete mutable implementation of List.
          */
         List<T> get();
+    }
+
+    interface MapInitializer<K, V> {
+
+        /**
+         * Provides an initialized list implementation.
+         *
+         * @return A concrete mutable implementation of List.
+         */
+        Map<K, V> get();
+    }
+
+    interface MapKey<K, V> {
+
+        K get(V v);
     }
 
     interface ListItem<T> {

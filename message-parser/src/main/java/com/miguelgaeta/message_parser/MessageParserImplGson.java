@@ -8,7 +8,9 @@ import com.google.gson.stream.JsonToken;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("UnusedDeclaration")
 public class MessageParserImplGson extends JsonReader implements MessageParser {
@@ -178,6 +180,64 @@ public class MessageParserImplGson extends JsonReader implements MessageParser {
 
         return list;
     }
+
+    @Override
+    public <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key) throws IOException {
+        final Map<K, V> map = new HashMap<>();
+
+        beginArray();
+
+        while (hasNext()) {
+            final V i = item.get();
+
+            if (i != null) {
+                map.put(key.get(i), i);
+            }
+        }
+
+        endArray();
+
+        return map;
+    }
+
+    @Override
+    public <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key, boolean filterNull) throws IOException {
+        final Map<K, V> map = new HashMap<>();
+
+        beginArray();
+
+        while (hasNext()) {
+            final V i = item.get();
+
+            if (!filterNull || i != null) {
+                map.put(key.get(i), i);
+            }
+        }
+
+        endArray();
+
+        return map;
+    }
+
+    @Override
+    public <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key, boolean filterNull, MapInitializer<K, V> initializer) throws IOException {
+        final Map<K, V> map = initializer.get();
+
+        beginArray();
+
+        while (hasNext()) {
+            final V i = item.get();
+
+            if (!filterNull || i != null) {
+                map.put(key.get(i), i);
+            }
+        }
+
+        endArray();
+
+        return map;
+    }
+
 
     @Override
     public boolean nextObject(ObjectFieldAssigner handler) throws IOException {

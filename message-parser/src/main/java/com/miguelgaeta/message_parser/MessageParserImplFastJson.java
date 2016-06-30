@@ -6,7 +6,9 @@ import com.alibaba.fastjson.JSONReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("UnusedDeclaration")
 public class MessageParserImplFastJson extends JSONReader implements MessageParser {
@@ -215,6 +217,63 @@ public class MessageParserImplFastJson extends JSONReader implements MessagePars
         endArray();
 
         return list;
+    }
+
+    @Override
+    public <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key) throws IOException {
+        final Map<K, V> map = new HashMap<>();
+
+        startArray();
+
+        while (hasNext()) {
+            final V i = item.get();
+
+            if (i != null) {
+                map.put(key.get(i), i);
+            }
+        }
+
+        endArray();
+
+        return map;
+    }
+
+    @Override
+    public <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key, boolean filterNull) throws IOException {
+        final Map<K, V> map = new HashMap<>();
+
+        startArray();
+
+        while (hasNext()) {
+            final V i = item.get();
+
+            if (!filterNull || i != null) {
+                map.put(key.get(i), i);
+            }
+        }
+
+        endArray();
+
+        return map;
+    }
+
+    @Override
+    public <K, V> Map<K, V> nextListAsMap(ListItem<V> item, MapKey<K, V> key, boolean filterNull, MapInitializer<K, V> initializer) throws IOException {
+        final Map<K, V> map = initializer.get();
+
+        startArray();
+
+        while (hasNext()) {
+            final V i = item.get();
+
+            if (!filterNull || i != null) {
+                map.put(key.get(i), i);
+            }
+        }
+
+        endArray();
+
+        return map;
     }
 
     @Override
