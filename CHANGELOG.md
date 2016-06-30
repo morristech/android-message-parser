@@ -1,3 +1,7 @@
+## 1.3.1 - 2016-06-05
+
+- Added #nextListAsMap interface method.
+
 ## 1.3.0 - 2016-06-05
 
 - Update #nextList overloads to more sensible defaults.
