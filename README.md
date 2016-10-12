@@ -8,15 +8,15 @@ A wrapper interface to various messaging formats for fast message parsing.
 
 ```groovy
 
-compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.1'
+compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.2'
 
 ```
 
 ```groovy
 
-compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.1-gson'
-compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.1-fast-json'
-compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.1-jackson'
+compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.2-gson'
+compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.2-fast-json'
+compile 'com.miguelgaeta.android-message-parser:message-parser:1.3.2-jackson'
 
 ```
 
