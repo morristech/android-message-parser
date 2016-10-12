@@ -15,10 +15,16 @@ import java.util.Map;
 @SuppressWarnings("UnusedDeclaration")
 public class MessageParserImplGson extends JsonReader implements MessageParser {
 
-    private final Gson gson = new Gson();
+    private final Gson gson;
+
+    public MessageParserImplGson(final Reader reader, final Gson gson) {
+        super(reader);
+
+        this.gson = gson;
+    }
 
     public MessageParserImplGson(final Reader reader) {
-        super(reader);
+        this(reader, new Gson());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.miguelgaeta.android_message_parser;
 
+import com.google.gson.Gson;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,7 +42,7 @@ public class AppActivity extends AppCompatActivity {
 
     private void test1(final TestModel testModel, final String json) throws IOException {
 
-        final MessageParser reader = new MessageParserImplGson(new StringReader(json));
+        final MessageParser reader = new MessageParserImplGson(new StringReader(json), new Gson());
 
         reader.beginObjectStructure();
 
